@@ -1,0 +1,27 @@
+body {
+    background-image: url("../images/doodles.png");
+}
+
+#container {
+    width: 960px;
+    margin: 0 auto;
+    box-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+header {
+    padding: 20px;
+    background: pink;
+    margin-bottom: 20px;
+}
+
+#game {
+    
+}
+
+#progress-bar {
+
+}
