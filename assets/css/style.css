@@ -14,8 +14,9 @@ body {
 
 header {
     padding: 20px;
-    background: pink;
+    background: teal;
     margin-bottom: 20px;
+    color: white;
 }
 
 #game {
