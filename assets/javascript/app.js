@@ -28,91 +28,56 @@ var theQuestions = [
 
 // Create a welcome page - ready to begin?
 
-function triviaQuiz () {
-    questions.forEach( (currentQuestion, questionNumber) => {
+// function triviaQuiz () {
+//     questions.forEach( (currentQuestion, questionNumber) => {
 
-    });
-}
-
-
+//     });
+// }
 
 
+window.onload = function() {
+    $("#readyButton").on("click", timer.countDown);
+};
 
+var intervalId;
 
+var timerRunning = false;
 
-$("#timer").click(function () {
+var timer = {
+    
+    timeLeft: 20,
 
-    var timeLeft = 20;
-    var count = setInterval(countDown, 1000); 
+    newQuestion: function() {
 
-    countDown();
+        timer.timeLeft = 20;
+        
+        $("#timer").text("");
+    },
+  
+    countDown: function() {
+        
+        timer.timeLeft = 20;
 
-    function countDown {
-    if (timeLeft === -1) {
-        clearTimeout(count);
-    } else {
-        document.getElementById("timer").textContent = timeLeft;
-        timeLeft--;
+        if (!timerRunning) {
+            intervalId = setInterval(timer.count, 1000);
+            timerRunning = true;
         }
+    },
+
+    count: function() {
+        
+        timer.timeLeft--;
+        console.log(timer.timeLeft);
+        
+        if (timer.timeLeft === -1) {
+            clearInterval(intervalId);
+            timerRunning = false;        
+        } else {
+            $("#timer").text(timer.timeLeft);
+        }
+
     }
-}); 
-
-
-
-// var timeLeft = 20;
-// var timer = setInterval(countDown, 1000);
-
-// function countDown() {
-//     if (timeLeft === -1) {
-//         clearTimeout(timer);
-//     } else {
-//         document.getElementById("timer").textContent = timeLeft;
-//         timeLeft--;
-//     }
-// }
-
-
-// var intervalId;
-
-// var stopWatch = {
-//     time: 0,
-
-//     newQuestion: function() {
-//         stopWatch.time = 1000 * 20;
-//         $("#timer").text("00:20");
-//         intervalId = setInterval(stopWatch.count, -1000);
-//     },
-
-//     answerClicked: function() {
-//         clearInterval(intervalId);
-//     },
-
-//     count: function() {
-//         stopWatch.time--;
-
-//         var converted = stopWatch.timeConverter(stopWatch.time);
-//         console.log(converted);
-//         $("#timer").text(converted);
-//     },
-
-//     timeConverter: function(t) {
-//         var minutes = Math.floor(t / 60);
-//         var seconds = t - (minutes * 60);
-    
-//         if (seconds < 10) {
-//           seconds = "0" + seconds;
-//         }
-    
-//         if (minutes === 0) {
-//           minutes = "00";
-//         }
-//         else if (minutes < 10) {
-//           minutes = "0" + minutes;
-//         }
-    
-//         return minutes + ":" + seconds;
-//     }
-// }
+}
 
 // In each question "mark" an answer as right or wrong
 
