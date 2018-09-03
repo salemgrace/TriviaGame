@@ -26,6 +26,31 @@ var theQuestions = [
     }
 ]
 
+var showQuestions;
+
+var questionCount = 0;
+
+$("#start-game").click(startGame);
+
+function displayQuestion () {
+    $("#question-holder").text(theQuestions.question);
+}
+
+function nextQuestion () {
+    questionCount++;
+
+    if (questionCount === theQuestions.length) {
+        questionCount = 0;
+    }
+}
+
+function startGame () {
+
+    showQuestions = setInterval(nextQuestion, 20 * 1000);
+
+}
+
+displayQuestion ();
 // Create a welcome page - ready to begin?
 
 // function triviaQuiz () {
