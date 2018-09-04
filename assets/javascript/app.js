@@ -33,15 +33,13 @@ var questionCount = 0;
 $("#start-game").click(startGame);
 
 function displayQuestion () {
-    $("#question-holder").text(theQuestions.question);
+    
+    $("#question-holder").text(theQuestions[questionCount]);
 }
 
 function nextQuestion () {
+    
     questionCount++;
-
-    if (questionCount === theQuestions.length) {
-        questionCount = 0;
-    }
 }
 
 function startGame () {
@@ -50,7 +48,6 @@ function startGame () {
 
 }
 
-displayQuestion ();
 // Create a welcome page - ready to begin?
 
 // function triviaQuiz () {
