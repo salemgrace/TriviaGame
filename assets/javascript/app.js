@@ -34,17 +34,27 @@ $("#start-game").click(startGame);
 
 function displayQuestion () {
     
-    $("#question-holder").text(theQuestions[questionCount]);
 }
 
 function nextQuestion () {
-    
+    for (i = 0; i < theQuestions.length; i++) {
+        $("#question-holder").text(theQuestions[i].question);
+        $("#choice-a").html('<input type="radio">     ' + theQuestions[i].answers.a + '</input>')
+        $("#choice-b").html('<input type="radio">     ' + theQuestions[i].answers.b + '</input>')
+        $("#choice-c").html('<input type="radio">     ' + theQuestions[i].answers.c + '</input>')
+        $("#choice-d").html('<input type="radio">     ' + theQuestions[i].answers.d + '</input>')
+    }
+    // for (j = 0; j < theQuestions[questionCount].answers.length; j++) {
+    //     var radioBtn = $('<input type="radio" name="radioBtn" >' + answers[j] + '</input>');
+    //     radioBtn.appendTo("#choicesForAnswers");
     questionCount++;
 }
 
 function startGame () {
 
-    showQuestions = setInterval(nextQuestion, 20 * 1000);
+    nextQuestion ();
+    // $("#question-holder").text("Question One");
+    // showQuestions = setInterval(nextQuestion, 20 * 1000);
 
 }
 
@@ -58,7 +68,7 @@ function startGame () {
 
 
 window.onload = function() {
-    $("#readyButton").on("click", timer.countDown);
+    $("#start-game").on("click", timer.countDown);
 };
 
 var intervalId;
@@ -67,22 +77,23 @@ var timerRunning = false;
 
 var timer = {
     
-    timeLeft: 20,
+    timeLeft: 11,
 
     newQuestion: function() {
 
-        timer.timeLeft = 20;
-        
+        timer.timeLeft = 11;
         $("#timer").text("");
     },
   
     countDown: function() {
         
-        timer.timeLeft = 20;
+        timer.timeLeft = 11;
+        $("#start-game").text("Next Question");
 
         if (!timerRunning) {
             intervalId = setInterval(timer.count, 1000);
             timerRunning = true;
+            timer.newQuestion()
         }
     },
 
@@ -93,7 +104,8 @@ var timer = {
         
         if (timer.timeLeft === -1) {
             clearInterval(intervalId);
-            timerRunning = false;        
+            timerRunning = false;
+            $("#timer").text("Time's up!");        
         } else {
             $("#timer").text(timer.timeLeft);
         }
