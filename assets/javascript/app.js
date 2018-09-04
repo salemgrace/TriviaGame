@@ -37,17 +37,24 @@ function displayQuestion () {
 }
 
 function nextQuestion () {
+    $("#answer-choices").appendTo($("#question-holder"));
+    
     for (i = 0; i < theQuestions.length; i++) {
         $("#question-holder").text(theQuestions[i].question);
-        $("#choice-a").html('<input type="radio">     ' + theQuestions[i].answers.a + '</input>')
-        $("#choice-b").html('<input type="radio">     ' + theQuestions[i].answers.b + '</input>')
-        $("#choice-c").html('<input type="radio">     ' + theQuestions[i].answers.c + '</input>')
-        $("#choice-d").html('<input type="radio">     ' + theQuestions[i].answers.d + '</input>')
+        $("#choice-a").text(theQuestions[i].answers.a);
+        $("#choice-b").text(theQuestions[i].answers.b);
+        $("#choice-c").text(theQuestions[i].answers.c);
+        $("#choice-d").text(theQuestions[i].answers.d);
     }
+    $("input").click(function(){
+        var answerChosen = $("input");
+        $("radio").val(answerChosen);
+        console.log(answerChosen);
+    }); 
+    // $("input[type=radio][name=choicesForAnswers]:checked").val();
     // for (j = 0; j < theQuestions[questionCount].answers.length; j++) {
     //     var radioBtn = $('<input type="radio" name="radioBtn" >' + answers[j] + '</input>');
     //     radioBtn.appendTo("#choicesForAnswers");
-    questionCount++;
 }
 
 function startGame () {
@@ -69,6 +76,7 @@ function startGame () {
 
 window.onload = function() {
     $("#start-game").on("click", timer.countDown);
+    $("#answer-choices").detach();
 };
 
 var intervalId;
