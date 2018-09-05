@@ -1,3 +1,11 @@
+var intervalId;
+
+var timerRunning = false;
+
+var showQuestions;
+
+var count = 0;
+
 // Create a series of questions
 var theQuestions = [
     {
@@ -26,62 +34,47 @@ var theQuestions = [
     }
 ]
 
-var showQuestions;
-
-var questionCount = 0;
-
-$("#start-game").click(startGame);
+$("#start-game").click(startQuestions);
 
 function displayQuestion () {
     
 }
 
-function nextQuestion () {
-    $("#answer-choices").appendTo($("#question-holder"));
+function startQuestions () {
+    $("#next-question-button").text("Next Question");
+    $("#next-question-button").on("click", nextQuestion);
+    // Display new question with answer choices
+    $("#question-holder").text(theQuestions[count].question);
+    $("#choice-a").text(theQuestions[count].answers.a);
+    $("#choice-b").text(theQuestions[count].answers.b);
+    $("#choice-c").text(theQuestions[count].answers.c);
+    $("#choice-d").text(theQuestions[count].answers.d);
     
-    for (i = 0; i < theQuestions.length; i++) {
-        $("#question-holder").text(theQuestions[i].question);
-        $("#choice-a").text(theQuestions[i].answers.a);
-        $("#choice-b").text(theQuestions[i].answers.b);
-        $("#choice-c").text(theQuestions[i].answers.c);
-        $("#choice-d").text(theQuestions[i].answers.d);
-    }
-    $("input").click(function(){
-        var answerChosen = $("input");
-        $("radio").val(answerChosen);
-        console.log(answerChosen);
-    }); 
-    // $("input[type=radio][name=choicesForAnswers]:checked").val();
-    // for (j = 0; j < theQuestions[questionCount].answers.length; j++) {
-    //     var radioBtn = $('<input type="radio" name="radioBtn" >' + answers[j] + '</input>');
-    //     radioBtn.appendTo("#choicesForAnswers");
+    $("input[name=choice]:checked").val();
+
+    for (i = 0; i < theQuestions[count].answers.length; i++) {
+        var answerChosen =  $("input[name=choice]:checked");
+        console.log(answerChosen, "Answer selected");
+        // radioBtn.appendTo("#choicesForAnswers");
+
+    
 }
-
-function startGame () {
-
-    nextQuestion ();
-    // $("#question-holder").text("Question One");
-    // showQuestions = setInterval(nextQuestion, 20 * 1000);
 
 }
 
-// Create a welcome page - ready to begin?
+function nextQuestion () {
 
-// function triviaQuiz () {
-//     questions.forEach( (currentQuestion, questionNumber) => {
+    count++;
 
-//     });
-// }
+}
 
 
 window.onload = function() {
     $("#start-game").on("click", timer.countDown);
-    $("#answer-choices").detach();
-};
+    // $("#answer-choices").detach();
+}
 
-var intervalId;
 
-var timerRunning = false;
 
 var timer = {
     
@@ -96,7 +89,8 @@ var timer = {
     countDown: function() {
         
         timer.timeLeft = 11;
-        $("#start-game").text("Next Question");
+        $("#start-game").remove();
+        // $("#answer-choices").appendTo($("#answer-choices-container"));
 
         if (!timerRunning) {
             intervalId = setInterval(timer.count, 1000);

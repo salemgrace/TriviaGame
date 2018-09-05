@@ -20,9 +20,9 @@
     </header>
     <div id="main-container">
         <h2 id="question-holder">Ready to begin?</h2>
-        <div id="answer-choices">
+        <div id="answer-choices-container">
             <form name="choicesForAnswers">
-                <div>
+                <div id="answer-choices">
                     <input type="radio" id="choice-a-radio" name="choice" value="choiceAValue">
                     <label for="choiceALabel" id="choice-a"></label>
                     <br>
@@ -35,22 +35,17 @@
                     <input type="radio" id="choice-d-radio" name="choice" value="choiceDValue">
                     <label for="chioceDLabel" id="choice-d"></label>
                     <br>
-                    <div>
-                    <button type="submit"></button>
+                    <div id="button-container">
+                            <button id="next-question-button" type="submit" class="btn btn-warning"></button>
                     </div>
-                <!-- <h3 id="choice-a"></h3>
-                <h3 id="choice-b"></h3>
-                <h3 id="choice-c"></h3>
-                <h3 id="choice-d"></h3> -->
             </div>
             </form>
         </div>
-        <div id="button-container">
-            <button id="start-game" type="button" class="btn btn-warning">Click Here</button>
-        </div>
-        <div id="game">
-            <div id="question-holder"></div>
 
+        <div id="game">
+                <div id="button-container">
+                        <button id="start-game" type="button" class="btn btn-warning">Click Here</button>
+                </div>
             <div id="timer"></div>
         </div>
 
