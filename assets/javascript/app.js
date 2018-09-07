@@ -31,10 +31,21 @@ var theQuestions = [
         },
 
         correctAnswer: "b"
+    },
+    {
+        // Question Three
+        question: "What was Salem's first pet?",
+        answers: {
+            a: "Dog",
+            b: "Cat",
+            c: "Goldfish",
+            d: "Guinea Pig",
+        },
+
+        correctAnswer: "c"
     }
 ]
 
-$("#start-game").click(startQuestions);
 
 function displayQuestion () {
     
@@ -43,6 +54,7 @@ function displayQuestion () {
 function startQuestions () {
     $("#next-question-button").text("Next Question");
     $("#next-question-button").on("click", nextQuestion);
+    
     // Display new question with answer choices
     $("#question-holder").text(theQuestions[count].question);
     $("#choice-a").text(theQuestions[count].answers.a);
@@ -50,52 +62,52 @@ function startQuestions () {
     $("#choice-c").text(theQuestions[count].answers.c);
     $("#choice-d").text(theQuestions[count].answers.d);
     
-    $("input[name=choice]:checked").val();
-
-    for (i = 0; i < theQuestions[count].answers.length; i++) {
-        var answerChosen =  $("input[name=choice]:checked");
-        console.log(answerChosen, "Answer selected");
-        // radioBtn.appendTo("#choicesForAnswers");
-
+    var selected = $("input[type='radio'][name='choice']:checked");
+    var selectedVal = "";
     
-}
+    if (selected.length > 0) {
+        
+        selectedVal = selected.val();
+        console.log(selectedVal);
+        nextQuestion();
+    }
 
+    $("#next-question-button").click(nextQuestion);
 }
 
 function nextQuestion () {
 
     count++;
-
+    timer.countDown();
 }
 
 
 window.onload = function() {
-    $("#start-game").on("click", timer.countDown);
-    // $("#answer-choices").detach();
+    $("#start-game").on("click", timer.firstQuestion);
+    $("#answer-choices-container").hide();
 }
-
 
 
 var timer = {
     
     timeLeft: 11,
 
-    newQuestion: function() {
+    firstQuestion: function() {
 
-        timer.timeLeft = 11;
-        $("#timer").text("");
+        $("#start-game").remove();
+        $("#answer-choices-container").show();
+        timer.countDown();
     },
   
     countDown: function() {
         
         timer.timeLeft = 11;
-        $("#start-game").remove();
-        // $("#answer-choices").appendTo($("#answer-choices-container"));
+        startQuestions();
 
         if (!timerRunning) {
+            timer.timeLeft = 11;
             intervalId = setInterval(timer.count, 1000);
             timerRunning = true;
-            timer.newQuestion()
         }
     },
 
@@ -105,13 +117,15 @@ var timer = {
         console.log(timer.timeLeft);
         
         if (timer.timeLeft === -1) {
+            
             clearInterval(intervalId);
             timerRunning = false;
             $("#timer").text("Time's up!");        
+        
         } else {
+            
             $("#timer").text(timer.timeLeft);
         }
-
     }
 }
 

@@ -54,6 +54,11 @@ header {
     font-size: 30px;
 }
 
+
+#answer-choices {
+    margin-left: 40px;
+}
+
 #game {
     
 }
