@@ -1,3 +1,5 @@
+var gameDisplay = $("game-area");
+
 var intervalId;
 
 var timerRunning = false;
@@ -17,7 +19,7 @@ var theQuestions = [
             c: "Green",
             d: "Pink",
         },
-        correctAnswer: "a"
+        correctAnswer: "Black"
 
     },
     {
@@ -30,7 +32,7 @@ var theQuestions = [
             d: "Corky",
         },
 
-        correctAnswer: "b"
+        correctAnswer: "Annabelle"
     },
     {
         // Question Three
@@ -42,37 +44,70 @@ var theQuestions = [
             d: "Guinea Pig",
         },
 
-        correctAnswer: "c"
+        correctAnswer: "Guinea Pig"
     }
 ]
 
+var timer;
 
-function displayQuestion () {
-    
-}
+var game = {
+    questions: questions,
+    currentQuestion: 0,
+    timeLeft: countStartNumber,
+    correct: 0,
+    incorrect: 0,
 
-function startQuestions () {
-    $("#next-question-button").text("Next Question");
-    $("#next-question-button").on("click", nextQuestion);
+    countDown: function() {
+
+        game.timeLeft--;
+        $("timer").text(game.counter);
+
+        if (game.timeLeft === 0) {
+            
+            console.log("Time's up!")
+            game.timeUp();
+        }
+    },
+
+    displayQuestion: function () {
+
+        timer = setInterval(game.countdown, 1000);
+
+        displayQuestion.html("<h2>" + theQuestions[this.currentQuestion].question + "<h2>");
+
+        for (var i = 0; i < theQuestions[this.currentQuestion].answers.length; i++) {
+            displayQuestion.append("button class='answer-button' id='button' data-name='" + theQuestions[this.currentQuestion].answers[i]
+            + "'>" + theQuestions[this.currentQuestion].answers[i] + "</button>");
+        }
+    },
+
+    nextQuestion: function() {
+        game.timeLeft = countStartNumber;
+        $("timer").text(game.timeLeft);
+        game.currentQuestion++;
+        game.displayQuestion();
+    },
+    // $("#next-question-button").text("Next Question");
+    // $("#next-question-button").on("click", nextQuestion);
     
-    // Display new question with answer choices
-    $("#question-holder").text(theQuestions[count].question);
-    $("#choice-a").text(theQuestions[count].answers.a);
-    $("#choice-b").text(theQuestions[count].answers.b);
-    $("#choice-c").text(theQuestions[count].answers.c);
-    $("#choice-d").text(theQuestions[count].answers.d);
+    // // Display new question with answer choices
+    // $("#question-holder").text(theQuestions[count].question);
+    // $("#choice-a").text(theQuestions[count].answers.a);
+    // $("#choice-b").text(theQuestions[count].answers.b);
+    // $("#choice-c").text(theQuestions[count].answers.c);
+    // $("#choice-d").text(theQuestions[count].answers.d);
     
-    var selected = $("input[type='radio'][name='choice']:checked");
-    var selectedVal = "";
+    // var selected = $("input[type='radio'][name='choice']:checked");
+    // var selectedVal = "";
     
-    if (selected.length > 0) {
+    // if (selected.length > 0) {
         
-        selectedVal = selected.val();
-        console.log(selectedVal);
-        nextQuestion();
-    }
+    //     selectedVal = selected.val();
+    //     console.log(selectedVal);
+    //     nextQuestion();
+    // }
 
-    $("#next-question-button").click(nextQuestion);
+    // $("#next-question-button").click(nextQuestion);
 }
 
 function nextQuestion () {
@@ -99,16 +134,7 @@ var timer = {
         timer.countDown();
     },
   
-    countDown: function() {
-        
-        timer.timeLeft = 11;
-        startQuestions();
 
-        if (!timerRunning) {
-            timer.timeLeft = 11;
-            intervalId = setInterval(timer.count, 1000);
-            timerRunning = true;
-        }
     },
 
     count: function() {
