@@ -51,6 +51,7 @@ var theQuestions = [
 var timer;
 
 var game = {
+
     questions: questions,
     currentQuestion: 0,
     timeLeft: countStartNumber,
@@ -63,7 +64,6 @@ var game = {
         $("timer").text(game.counter);
 
         if (game.timeLeft === 0) {
-            
             console.log("Time's up!")
             game.timeUp();
         }
@@ -71,22 +71,77 @@ var game = {
 
     displayQuestion: function () {
 
-        timer = setInterval(game.countdown, 1000);
+        timer = setInterval(game.countDown, 1000);
 
-        displayQuestion.html("<h2>" + theQuestions[this.currentQuestion].question + "<h2>");
+        gameDisplay.html("<h2>" + theQuestions[this.currentQuestion].question + "<h2>");
 
         for (var i = 0; i < theQuestions[this.currentQuestion].answers.length; i++) {
-            displayQuestion.append("button class='answer-button' id='button' data-name='" + theQuestions[this.currentQuestion].answers[i]
+            gameDisplay.append("button class='answer-button' id='button' data-name='" + theQuestions[this.currentQuestion].answers[i]
             + "'>" + theQuestions[this.currentQuestion].answers[i] + "</button>");
         }
     },
 
     nextQuestion: function() {
+
         game.timeLeft = countStartNumber;
         $("timer").text(game.timeLeft);
         game.currentQuestion++;
         game.displayQuestion();
     },
+
+    timeUp: function() {
+
+        clearInterval(timer);
+
+        $("timer").html(game.timeLeft);
+
+        gameDisplay.html("<h2>Out of Time!</h2>");
+        gameDisplay.append("<h3>The Correct Answer was: " + theQuestions[this.currentQuestion].correctAnswer);
+
+        if (game.currentQuestion === theQuestions.length -1) {
+            setTimeout(game.results, 3 * 1000);
+        } else {
+            setTimeout(game.nextQuestion, 3 * 1000);
+        }
+    },
+
+    results: function() {
+
+        clearInterval(timer);
+
+        $("timer").text(game.timeLeft);
+
+        gameDisplay.html("<h2>Here is how much you knew...</h2>");
+        gameDisplay.append("<h3>Correct Answers: " + game.correct + "</h3>");
+        gameDisplay.append("<h3>Incorrect Answers: " + game.incorrect + "</h3>");
+    },
+
+    clicked: function(e) {
+        clearInterval(timer);
+
+    },
+
+    answeredIncorrectly: function() {
+
+        game.incorrect++;
+    },
+
+    answeredCorrectly: function() {
+
+        game.correct++;
+    },
+
+    reset: function() {
+        this.currentQuestion = 0;
+        this.timeLeft = countStartNumber;
+        this.correct = 0;
+        this.incorrect = 0; 
+        this.displayQuestion();
+    }
+};
+
+
+
     // $("#next-question-button").text("Next Question");
     // $("#next-question-button").on("click", nextQuestion);
     
@@ -108,52 +163,24 @@ var game = {
     // }
 
     // $("#next-question-button").click(nextQuestion);
-}
-
-function nextQuestion () {
-
-    count++;
-    timer.countDown();
-}
 
 
-window.onload = function() {
-    $("#start-game").on("click", timer.firstQuestion);
-    $("#answer-choices-container").hide();
-}
-
-
-var timer = {
+$(document).on("click", "#start-over", function() {
     
-    timeLeft: 11,
+    game.reset();
+});
 
-    firstQuestion: function() {
+$(document).on("click", "#next-question-button", function() {
+    
+    game.clicked(e);
+});
 
-        $("#start-game").remove();
-        $("#answer-choices-container").show();
-        timer.countDown();
-    },
-  
-
-    },
-
-    count: function() {
-        
-        timer.timeLeft--;
-        console.log(timer.timeLeft);
-        
-        if (timer.timeLeft === -1) {
-            
-            clearInterval(intervalId);
-            timerRunning = false;
-            $("#timer").text("Time's up!");        
-        
-        } else {
-            
-            $("#timer").text(timer.timeLeft);
-        }
-    }
-}
+$(document).on("click", "#start-game", function(){
+    
+    game.displayQuestion();
+    $("#start-game").remove();
+    $("#answer-choices-container").show();
+});
 
 // In each question "mark" an answer as right or wrong
 
